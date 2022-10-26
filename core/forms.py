@@ -16,7 +16,7 @@ class ComponentTypeForm(forms.ModelForm):
 class QuotationForm(forms.ModelForm):
     class Meta:
         model = Quotation
-        fields = []
+        fields = ['date', ]
 
 class StatementForm(forms.ModelForm):
     class Meta:

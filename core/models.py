@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+
 
 STATEMENT_TYPE = [
     ("Quote", "Quote"),
@@ -51,17 +53,17 @@ class StatementLine(models.Model):
 
 class SaleOrder(models.Model):
     statement = models.ForeignKey(Statement, on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return f"SO: {self.statement} at {self.date}"
 class Quotation(models.Model):
     statement = models.ForeignKey(Statement, on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return f"Quotation: {self.statement} at {self.date}"
 class Invoice(models.Model):
     statement = models.ForeignKey(Statement, on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(default=timezone.now)
     discount = models.FloatField()
     def __str__(self):
         return f"Invoice: {self.statement} at {self.date}"
