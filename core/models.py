@@ -42,7 +42,7 @@ class Customer(models.Model):
     def __str__(self):
         return self.name
 class Statement(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, unique=True)
     statement_type = models.CharField(max_length=50, choices=STATEMENT_TYPE, default='Quote')
     is_canceled = models.BooleanField()
     def __str__(self):
