@@ -21,4 +21,4 @@ class QuotationForm(forms.ModelForm):
 class StatementForm(forms.ModelForm):
     class Meta:
         model = Statement
-        fields = '__all__'
+        fields = ['customer', 'is_canceled']
