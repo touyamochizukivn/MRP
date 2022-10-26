@@ -54,11 +54,11 @@ class SaleOrder(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return f"SO: {self.statement} at {self.date}"
-class Quote(models.Model):
+class Quotation(models.Model):
     statement = models.ForeignKey(Statement, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     def __str__(self):
-        return f"Quote: {self.statement} at {self.date}"
+        return f"Quotation: {self.statement} at {self.date}"
 class Invoice(models.Model):
     statement = models.ForeignKey(Statement, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)

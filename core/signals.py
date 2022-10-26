@@ -7,4 +7,4 @@ from core.models import *
 @receiver(post_save, sender=Statement)
 def create_quote(sender, instance, created, **kwargs):
     if created and instance.statement_type == 'Quote':
-        Quote.objects.create(statement=instance)
+        Quotation.objects.create(statement=instance)

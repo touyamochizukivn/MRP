@@ -12,3 +12,13 @@ class ComponentTypeForm(forms.ModelForm):
     class Meta:
         model = ComponentType
         fields = '__all__'
+
+class QuotationForm(forms.ModelForm):
+    class Meta:
+        model = Quotation
+        fields = []
+
+class StatementForm(forms.ModelForm):
+    class Meta:
+        model = Statement
+        fields = '__all__'

@@ -57,3 +57,31 @@ def component_type_edit(request, id):
 def component_type_delete(request, id):
     ComponentType.objects.get(id=id).delete()
     return redirect("/component_type/list")
+###################################################################################################
+def quotation_list(request):
+    return render(request, "quotation/list.html", {'quotations': Quotation.objects.all()})
+
+def quotation_detail(request, id):
+    return render(request, "quotation/detail.html", {'quotation': Quotation.objects.get(id=id)})
+
+def quotation_add(request):
+    quotation_form = QuotationForm(request.POST or None)
+    statement_form = StatementForm(request.POST or None)
+    if quotation_form.is_valid() and statement_form.is_valid():
+        statement = statement_form.save()
+        Quotation.objects.create(statement=statement)
+        return redirect('/quotation/list')
+    return render(request, "quotation/add.html", {'quotation_form': quotation_form, 'statement_form': statement_form})
+
+def quotation_edit(request, id):
+    obj = get_object_or_404(Quotation, id=id)
+    form = QuotationForm(request.POST or None, instance = obj)
+    if form.is_valid():
+        form.save()
+        return redirect('/quotation/edit/' + str(id))
+    return render(request, "quotation/edit.html", {'form': form})
+
+def quotation_delete(request, id):
+    Quotation.objects.get(id=id).delete()
+    return redirect("/quotation/list")
+###################################################################################################

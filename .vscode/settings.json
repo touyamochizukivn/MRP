@@ -10,6 +10,7 @@
         "**/asgi.py": true,
         "**/wsgi.py": true,
         "**/apps.py": true,
+        "**/signals.py": true,
         "**/tests.py": true,
         "**/manage.py": true,
         "**/admin.py": true,
