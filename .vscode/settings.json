@@ -12,7 +12,7 @@
         "**/apps.py": true,
         "**/tests.py": true,
         "**/manage.py": true,
-        "**/__pycache__": true,
+        "**/__pycache__": true
     },
     "hide-files.files": []
 }
