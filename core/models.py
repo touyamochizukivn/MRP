@@ -19,9 +19,9 @@ class Stock(models.Model):
         return self.name
 
 
-
 class Product(models.Model):
     name = models.CharField(max_length=50)
+    component = models.ManyToManyField(Component)
     def __str__(self):
         return self.name
 class Customer(models.Model):
@@ -59,4 +59,8 @@ class Invoice(models.Model):
     discount = models.FloatField()
     def __str__(self):
         return f"Invoice: {self.statement} at {self.date}"
-
+class Inventory(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    def __str__(self):
+        return f"{self.product}: {self.quantity}"
