@@ -1,12 +1,22 @@
 from django.db import models
 
+STATEMENT_TYPE = [
+    ("Quote", "Quote"),
+    ("Order", "Order"),
+    ("Invoice", "Invoice"),
+]
 
 class Supplier(models.Model):
     name = models.CharField(max_length=50)
     def __str__(self):
         return self.name
+class ComponentType(models.Model):
+    name = models.CharField(max_length=50)
+    def __str__(self):
+        return self.name
 class Component(models.Model):
     name = models.CharField(max_length=50)
+    component_type = models.ForeignKey(ComponentType, on_delete=models.CASCADE)
     def __str__(self):
         return self.name
 class PurchaseOrder(models.Model):
@@ -28,13 +38,9 @@ class Customer(models.Model):
     name = models.CharField(max_length=50)
     def __str__(self):
         return self.name
-class StatementType(models.Model):
-    name = models.CharField(max_length=50)
-    def __str__(self):
-        return self.name
 class Statement(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    statement_type = models.ForeignKey(StatementType, on_delete=models.CASCADE)
+    statement_type = models.CharField(max_length=50, choices=STATEMENT_TYPE, default='Quote')
     is_canceled = models.BooleanField()
     def __str__(self):
         return f"Statement for {self.customer}"
