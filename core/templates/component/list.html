@@ -1,0 +1,9 @@
+<a href="{% url 'component_add' %}"><button>Add</button></a>
+<br><br>
+{% for component in components %}
+    {{component.id}}. {{component.name}} [{{component.component_type}}] 
+    <a href="{% url 'component_detail' component.id %}"><button>Detail</button></a>
+    <a href="{% url 'component_edit' component.id %}"><button>Edit</button></a>
+    <a href="{% url 'component_delete' component.id %}"><button>Delete</button></a>
+    <br><br>
+{% endfor %}
