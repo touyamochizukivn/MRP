@@ -4,8 +4,8 @@ from core.models import *
 from core.forms import *
 
 
-def index(request):
-    return HttpResponse("Home")
+def dashboard(request):
+    return render(request, 'dashboard.html')
 
 ###################################################################################################
 def component_list(request):

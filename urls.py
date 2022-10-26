@@ -7,7 +7,7 @@ from core.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', index, name='index'),
+    path('', dashboard, name='dashboard'),
 
     # component
     path('component/add', component_add, name='component_add'),
