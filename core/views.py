@@ -70,11 +70,19 @@ def quotation_detail(request, id):
 def quotation_add(request):
     quotation_form = QuotationForm(request.POST or None)
     statement_form = StatementForm(request.POST or None)
-    if quotation_form.is_valid() and statement_form.is_valid():
+    statement_line_form = StatementLineForm(request.POST or None)
+    if quotation_form.is_valid() and statement_form.is_valid() and statement_line_form.is_valid():
         statement = statement_form.save()
+
+        statement_line = StatementLine.objects.create(
+            statement = statement,
+            product = statement_line_form.cleaned_data['product'],
+            price = statement_line_form.cleaned_data['price'],
+            quantity = statement_line_form.cleaned_data['quantity'],
+        )
         Quotation.objects.create(statement=statement)
         return redirect('/quotation/list')
-    return render(request, "quotation/add.html", {'quotation_form': quotation_form, 'statement_form': statement_form})
+    return render(request, "quotation/add.html", {'quotation_form': quotation_form, 'statement_form': statement_form, 'statement_line_form': statement_line_form})
 
 def quotation_edit(request, id):
     obj = get_object_or_404(Quotation, id=id)

@@ -18,7 +18,13 @@ class QuotationForm(forms.ModelForm):
         model = Quotation
         fields = ['date', ]
 
+
 class StatementForm(forms.ModelForm):
     class Meta:
         model = Statement
         fields = ['customer', 'is_canceled']
+
+class StatementLineForm(forms.ModelForm):
+    class Meta:
+        model = StatementLine
+        fields = ['product', 'price', 'quantity', ]
