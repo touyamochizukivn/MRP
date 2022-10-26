@@ -33,6 +33,7 @@ class Stock(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=50)
+    tax = models.FloatField(default=5)
     component = models.ManyToManyField(Component)
     def __str__(self):
         return self.name
@@ -50,6 +51,12 @@ class StatementLine(models.Model):
     statement = models.ForeignKey(Statement, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     price = models.IntegerField()
+    quantity = models.IntegerField(default=1)
+    def __str__(self):
+        return f"{self.statement} with product {self.product}"
+    @property
+    def total(self):
+        return (self.price * self.quantity * (100 + self.product.tax)/100)
 
 class SaleOrder(models.Model):
     statement = models.ForeignKey(Statement, on_delete=models.CASCADE)

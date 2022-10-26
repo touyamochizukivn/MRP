@@ -1,2 +1,12 @@
 
-Customer: {{quotation.statement.customer}} 
+Quote for Customer: {{quotation.statement.customer}}
+<br>
+Product: {{statement_line.product}} 
+<br>
+Price: {{statement_line.price}}
+<br>
+Quantity: {{statement_line.quantity}}
+<br>
+Tax: {{statement_line.product.tax}}%
+<br>
+Total: {{statement_line.total}}

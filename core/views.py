@@ -62,7 +62,10 @@ def quotation_list(request):
     return render(request, "quotation/list.html", {'quotations': Quotation.objects.all()})
 
 def quotation_detail(request, id):
-    return render(request, "quotation/detail.html", {'quotation': Quotation.objects.get(id=id)})
+    quotation = Quotation.objects.get(id=id)
+    statement = Statement.objects.get(quotation=quotation)
+    statement_line = StatementLine.objects.get(statement=statement)
+    return render(request, "quotation/detail.html", {'quotation': quotation, 'statement_line': statement_line})
 
 def quotation_add(request):
     quotation_form = QuotationForm(request.POST or None)
