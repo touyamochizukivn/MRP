@@ -1,14 +1,16 @@
 
-Quote for Customer: {{quotation.statement.customer}}
+Quote for Customer: {{quotation.customer}}
+<hr>
+{% for quotation_line in quotation.quotation_lines.all %}
+Product: {{quotation_line.product}} 
 <br>
-Product: {{statement_line.product}} 
+Price: {{quotation_line.price}}
 <br>
-Price: {{statement_line.price}}
+Quantity: {{quotation_line.quantity}}
 <br>
-Quantity: {{statement_line.quantity}}
+Tax: {{quotation_line.product.tax}}%
 <br>
-Tax: {{statement_line.product.tax}}%
-<br>
-Total: {{statement_line.total}}
-<br>
+Total: {{quotation_line.total}}
+<hr>
+{% endfor %}
 Created: {{quotation.date|date:'d-m-Y'}}

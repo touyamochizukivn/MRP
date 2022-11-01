@@ -2,15 +2,14 @@ from django.db import models
 from django.utils import timezone
 
 
-STATEMENT_TYPE = [
-    ("Quote", "Quote"),
-    ("Order", "Order"),
-    ("Invoice", "Invoice"),
+QUOTATION_STATUS = [
+    ("Pending", "Pending"),
+    ("Confirm", "Confirm"),
 ]
 
 class Supplier(models.Model):
     name = models.CharField(max_length=50)
-    def __str__(self):
+    def __str__(self):  
         return self.name
 class ComponentType(models.Model):
     name = models.CharField(max_length=50)
@@ -41,39 +40,51 @@ class Customer(models.Model):
     name = models.CharField(max_length=50)
     def __str__(self):
         return self.name
-class Statement(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, unique=True)
-    statement_type = models.CharField(max_length=50, choices=STATEMENT_TYPE, default='Quote')
-    is_canceled = models.BooleanField()
+
+class Quotation(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    status = models.CharField(max_length=50, choices=QUOTATION_STATUS, default='Quote')
+    date = models.DateTimeField(default=timezone.now)
     def __str__(self):
-        return f"Statement for {self.customer}"
-class StatementLine(models.Model):
-    statement = models.ForeignKey(Statement, on_delete=models.CASCADE)
+        return f"Quotation: {self.customer} at {self.date}"
+class QuotationLine(models.Model):
+    quotation = models.ForeignKey(Quotation, on_delete=models.CASCADE, related_name='quotation_lines')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     price = models.IntegerField()
     quantity = models.IntegerField(default=1)
     def __str__(self):
-        return f"{self.statement} with product {self.product}"
+        return f"QuotationLine: {self.quotation.customer} - {self.product}"
     @property
     def total(self):
         return (self.price * self.quantity * (100 + self.product.tax)/100)
-
 class SaleOrder(models.Model):
-    statement = models.ForeignKey(Statement, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    quotation = models.ForeignKey(Quotation, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateTimeField(default=timezone.now)
     def __str__(self):
-        return f"SO: {self.statement} at {self.date}"
-class Quotation(models.Model):
-    statement = models.ForeignKey(Statement, on_delete=models.CASCADE)
-    date = models.DateTimeField(default=timezone.now)
+        return f"SaleOrder: {self.customer} at {self.date}"
+class SaleOrderLine(models.Model):
+    sale_order = models.ForeignKey(SaleOrder, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    price = models.IntegerField()
+    quantity = models.IntegerField(default=1)
     def __str__(self):
-        return f"Quotation: {self.statement} at {self.date}"
+        return f"SaleOrderLine: {self.sale_order} : {self.product}"
 class Invoice(models.Model):
-    statement = models.ForeignKey(Statement, on_delete=models.CASCADE)
+    sale_order = models.ForeignKey(SaleOrder, on_delete=models.CASCADE)
     date = models.DateTimeField(default=timezone.now)
     discount = models.FloatField()
     def __str__(self):
-        return f"Invoice: {self.statement} at {self.date}"
+        return f"Invoice: {self.sale_order} at {self.date}"
+class InvoiceLine(models.Model):
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    price = models.IntegerField()
+    quantity = models.IntegerField(default=1)
+    def __str__(self):
+        return f"InvoiceLine: {self.invoice} : {self.product}"
+
+
 class Inventory(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()

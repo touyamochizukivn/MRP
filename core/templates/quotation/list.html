@@ -1,7 +1,7 @@
 <a href="{% url 'quotation_add' %}"><button>Add</button></a>
 <br><br>
 {% for quotation in quotations %}
-    {{quotation.id}}. quotation for: {{quotation.statement.customer}} at {{quotation.date|date:'d-m-Y'}}
+    {{quotation.id}}. quotation for: {{quotation.customer}} at {{quotation.date|date:'d-m-Y'}}
     <a href="{% url 'quotation_detail' quotation.id %}"><button>Detail</button></a>
     <a href="{% url 'quotation_edit' quotation.id %}"><button>Edit</button></a>
     <a href="{% url 'quotation_delete' quotation.id %}"><button>Delete</button></a>

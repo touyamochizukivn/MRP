@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
+from django.views.generic import *
+from django.urls import reverse
 
 from core.models import *
 from core.forms import *
@@ -63,26 +65,46 @@ def quotation_list(request):
 
 def quotation_detail(request, id):
     quotation = Quotation.objects.get(id=id)
-    statement = Statement.objects.get(quotation=quotation)
-    statement_line = StatementLine.objects.get(statement=statement)
-    return render(request, "quotation/detail.html", {'quotation': quotation, 'statement_line': statement_line})
+    return render(request, "quotation/detail.html", {'quotation': quotation})
 
 def quotation_add(request):
     quotation_form = QuotationForm(request.POST or None)
-    statement_form = StatementForm(request.POST or None)
-    statement_line_form = StatementLineForm(request.POST or None)
-    if quotation_form.is_valid() and statement_form.is_valid() and statement_line_form.is_valid():
-        statement = statement_form.save()
+    if request.method == 'POST':
+        formset = QuotationLineFormSet(data=request.POST)
+        if formset.is_valid() and quotation_form.is_valid():
+            for x in formset.cleaned_data:
+                x['id'] = quotation_form.cleaned_data.get('id')
+                print(x)
+            # formset.save()
+            from django.urls import reverse_lazy
+            return redirect(reverse_lazy("quotation_add"))
+        return render(request, {'quotation_line_formset': formset})
+    formset = QuotationLineFormSet(queryset=QuotationLine.objects.none())
+    return render(request, "quotation/add.html", {'quotation_line_formset': formset, 'quotation_form': quotation_form})
 
-        statement_line = StatementLine.objects.create(
-            statement = statement,
-            product = statement_line_form.cleaned_data['product'],
-            price = statement_line_form.cleaned_data['price'],
-            quantity = statement_line_form.cleaned_data['quantity'],
-        )
-        Quotation.objects.create(statement=statement)
-        return redirect('/quotation/list')
-    return render(request, "quotation/add.html", {'quotation_form': quotation_form, 'statement_form': statement_form, 'statement_line_form': statement_line_form})
+class QuotationAdd(CreateView):
+    template_name = 'quotation/add.html'
+    model = Quotation
+    fields = ['customer', 'status']
+    def get_success_url(self):
+        return reverse('quotation_list')
+    def get_context_data(self):
+        context = super().get_context_data()
+        if self.request.POST:
+            context['quotation_lines'] = QuotationLineFormSet(self.request.POST)
+        else:
+            context['quotation_lines'] = QuotationLineFormSet()
+        return context
+    def form_valid(self, form):
+        context = self.get_context_data()
+        quotation_lines = context['quotation_lines']
+        from django.db import transaction
+        with transaction.atomic():
+            self.object = form.save()
+            if quotation_lines.is_valid():
+                quotation_lines.instance = self.object
+                quotation_lines.save()
+        return super().form_valid(form)
 
 def quotation_edit(request, id):
     obj = get_object_or_404(Quotation, id=id)
