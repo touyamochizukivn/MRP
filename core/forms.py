@@ -38,9 +38,14 @@ class SaleOrderLineForm(forms.ModelForm):
         model = SaleOrderLine
         fields = '__all__'
 
-from django.forms import modelformset_factory, inlineformset_factory
+from django.forms import MultipleChoiceField, Select, TextInput, modelformset_factory, inlineformset_factory
 # QuotationLineFormSet = modelformset_factory(
 #     QuotationLine, fields=('product', 'price', 'quantity'), extra=1
 # )
 
-QuotationLineFormSet = inlineformset_factory(Quotation, QuotationLine, fields=('__all__'))
+QuotationLineFormSet = inlineformset_factory(Quotation, QuotationLine, fields=('__all__'), widgets={
+    'product': Select(attrs={'class': 'form-control'}),
+    'price': TextInput(attrs={'class': 'form-control'}),
+    'quantity': TextInput(attrs={'class': 'form-control'}),
+    'delete': Select(attrs={'class': 'form-control'}),
+})
