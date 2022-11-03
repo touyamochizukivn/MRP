@@ -36,7 +36,7 @@ class SaleOrderForm(forms.ModelForm):
 class SaleOrderLineForm(forms.ModelForm):
     class Meta:
         model = SaleOrderLine
-        fields = '__all__'
+        fields = ('product', 'price', 'quantity')
 
 from django.forms import MultipleChoiceField, Select, TextInput, modelformset_factory, inlineformset_factory
 # QuotationLineFormSet = modelformset_factory(

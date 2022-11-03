@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Quotation List{% endblock title %}
+{% block title %}sale_order List{% endblock title %}
 {% block content %}
 
 <section class="p-t-10">
@@ -29,7 +29,7 @@
 							<i class="zmdi zmdi-filter-list"></i>filters</button>
 					</div>
 					<div class="table-data__tool-right">
-						<a href="{% url 'quotation_add' %}"><button class="au-btn au-btn-icon au-btn--green au-btn--small"><i class="zmdi zmdi-plus"></i>add item</button></a>
+						<a href=""><button class="au-btn au-btn-icon au-btn--green au-btn--small"><i class="zmdi zmdi-plus"></i>add item</button></a>
 						
 						<div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
 							<select class="js-select2" name="type">
@@ -59,25 +59,25 @@
 							</tr>
 						</thead>
 						<tbody>
-							{% for quotation in quotations %}
-							<tr class="tr-shadow" id="{{quotation.id}}">
-								<td>{{quotation.id}}</td>
-								<td><a href="{% url 'quotation_detail' quotation.id %}"><button>{{quotation.customer}}</button></a></td>
-								<td>{{quotation.date|date:'d-m-Y'}}</td>
-								{% if quotation.status == 'Refuse' %}
-								<td style="color: red;">{{quotation.status}}</td>
+							{% for sale_order in sale_orders %}
+							<tr class="tr-shadow" id="{{sale_order.id}}">
+								<td>{{sale_order.id}}</td>
+								<td><a href="{% url 'sale_order_detail' sale_order.id %}"><button>{{sale_order.customer}}</button></a></td>
+								<td>{{sale_order.date|date:'d-m-Y'}}</td>
+								{% if sale_order.status == 'Refuse' %}
+								<td style="color: red;">{{sale_order.status}}</td>
 								{% else %}
-								<td>{{quotation.status}}</td>
+								<td>{{sale_order.status}}</td>
 								{% endif %}
-								<td>{{quotation.comment}}</td>
+								<td>{{sale_order.comment}}</td>
 								<td>
 									<div class="table-data-feature">
-										{% if quotation.status == 'Confirm' %}
-										<a href="{% url 'sale_order_add' quotation.id %}"><button class="btn btn-success">Create Order</button></a>
+										{% if sale_order.status == 'Confirm' %}
+										<a href="{% url 'sale_order_add' sale_order.id %}"><button class="btn btn-success">Create Order</button></a>
 										{% else %}
-										<button class="item" data-toggle="tooltip" data-placement="top" title="ReSend"><a href="{% url 'quotation_update_status' quotation.id %}"><i class="zmdi zmdi-mail-send"></i></a></button>
-										<button class="item" data-toggle="tooltip" data-placement="top" title="Edit"><a href="{% url 'quotation_detail' quotation.id %}"><i class="zmdi zmdi-edit"></i></a></button>
-										<button class="item" data-toggle="tooltip" data-placement="top" title="Delete"><a href="{% url 'quotation_delete' quotation.id %}"><i class="zmdi zmdi-delete"></i></a></button>
+										<button class="item" data-toggle="tooltip" data-placement="top" title="ReSend"><a href="#"><i class="zmdi zmdi-mail-send"></i></a></button>
+										<button class="item" data-toggle="tooltip" data-placement="top" title="Edit"><a href="{% url 'sale_order_detail' sale_order.id %}"><i class="zmdi zmdi-edit"></i></a></button>
+										<button class="item" data-toggle="tooltip" data-placement="top" title="Delete"><a href="{% url 'sale_order_delete' sale_order.id %}"><i class="zmdi zmdi-delete"></i></a></button>
 										{% endif %}
 									</div>
 							</td>

@@ -1,0 +1,39 @@
+
+
+
+{% extends 'base.html' %}
+{% block title %}sale_order_detail{% endblock title %}
+{% block content %}
+
+<section class="p-t-20">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h3 class="title-5 m-b-35">data table</h3>
+				Quote for Customer: {{sale_order.customer}}
+                <hr>
+                {% for sale_order_line in sale_order.sale_order_lines.all %}
+                <div>
+
+                    <a hx-get="{% url 'sale_order_edit' sale_order_line.id %}" hx-target="#sale_order_line{{sale_order_line.id}}"><button class="au-btn au-btn-icon au-btn--green au-btn--small"><i class="zmdi zmdi-plus"></i>update</button></a>
+                    <div id="sale_order_line{{sale_order_line.id}}"></div>
+                    <br>
+                    Product: {{sale_order_line.product}} 
+                    <br>
+                    Price: {{sale_order_line.price}}
+                    <br>
+                    Quantity: {{sale_order_line.quantity}}
+                    <br>
+                    Tax: {{sale_order_line.product.tax}}%
+                    <br>
+                    Total: {{sale_order_line.total}}
+                    <hr>
+                </div>
+                {% endfor %}
+                Created: {{sale_order.date|date:'d-m-Y'}}
+			</div>
+		</div>
+	</div>
+</section>
+
+{% endblock content %}

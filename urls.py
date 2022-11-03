@@ -28,6 +28,12 @@ urlpatterns = [
     path('quotation/edit/<int:id>', quotation_edit, name='quotation_edit'),
     path('quotation/update_status/<int:id>', quotation_update_status, name='quotation_update_status'),
     path('quotation/delete/<int:id>', quotation_delete, name='quotation_delete'),
+    # sale_order
+    path('sale_order/list', sale_order_list, name='sale_order_list'),
+    path('sale_order/<int:id>', sale_order_detail, name='sale_order_detail'),
+    path('sale_order/add/quote/<int:id>', sale_order_add, name='sale_order_add'),
+    path('sale_order/edit/<int:id>', sale_order_edit, name='sale_order_edit'),
+    path('sale_order/delete/<int:id>', sale_order_delete, name='sale_order_delete'),
 
 
     #ts

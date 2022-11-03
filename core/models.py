@@ -67,12 +67,15 @@ class SaleOrder(models.Model):
     def __str__(self):
         return f"SaleOrder: {self.customer} at {self.date}"
 class SaleOrderLine(models.Model):
-    sale_order = models.ForeignKey(SaleOrder, on_delete=models.CASCADE)
+    sale_order = models.ForeignKey(SaleOrder, on_delete=models.CASCADE, related_name='sale_order_lines')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     price = models.IntegerField()
     quantity = models.IntegerField(default=1)
     def __str__(self):
         return f"SaleOrderLine: {self.sale_order} : {self.product}"
+    @property
+    def total(self):
+        return (self.price * self.quantity * (100 + self.product.tax)/100)
 class Invoice(models.Model):
     sale_order = models.ForeignKey(SaleOrder, on_delete=models.CASCADE)
     date = models.DateTimeField(default=timezone.now)
@@ -86,7 +89,6 @@ class InvoiceLine(models.Model):
     quantity = models.IntegerField(default=1)
     def __str__(self):
         return f"InvoiceLine: {self.invoice} : {self.product}"
-
 
 class Inventory(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

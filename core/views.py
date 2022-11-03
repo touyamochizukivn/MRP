@@ -112,3 +112,42 @@ def quotation_update_status(request, id):
     quotation.save()
     return redirect("/quotation/list")
 ###################################################################################################
+
+def sale_order_list(request):
+    return render(request, "sale_order/list.html", {'sale_orders': SaleOrder.objects.all()})
+
+def sale_order_detail(request, id):
+    sale_order = SaleOrder.objects.get(id=id)
+    return render(request, "sale_order/detail.html", {'sale_order': sale_order})
+
+def sale_order_add(request, id):
+    quotation = Quotation.objects.get(id=id)
+    quotation_lines = quotation.quotation_lines.all()
+    sale_order = SaleOrder.objects.create(
+        quotation = quotation,
+        customer = quotation.customer,
+        date = quotation.date,
+    )
+    for quotation_line in quotation_lines:
+        SaleOrderLine.objects.create(
+            sale_order = sale_order,
+            product = quotation_line.product,
+            price = quotation_line.price,
+            quantity = quotation_line.quantity,
+        )
+    return redirect("/sale_order/" + str(sale_order.id))
+
+def sale_order_edit(request, id):
+    sale_order_line = get_object_or_404(SaleOrderLine, id=id)
+    form = SaleOrderLineForm(request.POST or None, instance = sale_order_line)
+    if request.method == 'POST':
+        print(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/sale_order/' + str(sale_order_line.sale_order.id))
+    return render(request, "sale_order/edit.html", {'form': form, 'sale_order_line': sale_order_line})
+
+def sale_order_delete(request, id):
+    SaleOrder.objects.get(id=id).delete()
+    return redirect("/sale_order/list")
+###################################################################################################
