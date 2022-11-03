@@ -65,12 +65,11 @@
 									<a href="{% url 'quotation_detail' quotation.id %}"><button>quotation for: {{quotation.customer}} at {{quotation.date|date:'d-m-Y'}}</button></a>
 								</td>
 								<td>
-									<a href="{% url 'quotation_edit' quotation.id %}"><button>Edit</button></a>
-									<a href="{% url 'quotation_delete' quotation.id %}"><button>Delete</button></a>
+									{{quotation.status}}
 								</td>
 								<td>
 									<div class="table-data-feature">
-										<button class="item" data-toggle="tooltip" data-placement="top" title="Send"><i class="zmdi zmdi-mail-send"></i></button>
+										<button class="item" data-toggle="tooltip" data-placement="top" title="ReSend"><i class="zmdi zmdi-mail-send"></i></button>
 										<button class="item" data-toggle="tooltip" data-placement="top" title="Edit"><a href="{% url 'quotation_edit' quotation.id %}"><i class="zmdi zmdi-edit"></i></a></button>
 										<button class="item" data-toggle="tooltip" data-placement="top" title="Delete"><a href="{% url 'quotation_delete' quotation.id %}"><i class="zmdi zmdi-delete"></i></a></button>
 										<button class="item" data-toggle="tooltip" data-placement="top" title="More"><i class="zmdi zmdi-more"></i></button>

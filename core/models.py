@@ -3,6 +3,7 @@ from django.utils import timezone
 
 
 QUOTATION_STATUS = [
+    ("None", "None"),
     ("Pending", "Pending"),
     ("Confirm", "Confirm"),
 ]

@@ -1,16 +1,35 @@
 
-Quote for Customer: {{quotation.customer}}
-<hr>
-{% for quotation_line in quotation.quotation_lines.all %}
-Product: {{quotation_line.product}} 
-<br>
-Price: {{quotation_line.price}}
-<br>
-Quantity: {{quotation_line.quantity}}
-<br>
-Tax: {{quotation_line.product.tax}}%
-<br>
-Total: {{quotation_line.total}}
-<hr>
-{% endfor %}
-Created: {{quotation.date|date:'d-m-Y'}}
+
+
+{% extends 'base.html' %}
+{% block title %}Quotation List{% endblock title %}
+{% block content %}
+
+<section class="p-t-20">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h3 class="title-5 m-b-35">data table</h3>
+				Quote for Customer: {{quotation.customer}}
+                <hr>
+                {% for quotation_line in quotation.quotation_lines.all %}
+                <a href="{% url 'quotation_create_form' %}"><button class="au-btn au-btn-icon au-btn--green au-btn--small"><i class="zmdi zmdi-plus"></i>update</button></a>
+                <br>
+                Product: {{quotation_line.product}} 
+                <br>
+                Price: {{quotation_line.price}}
+                <br>
+                Quantity: {{quotation_line.quantity}}
+                <br>
+                Tax: {{quotation_line.product.tax}}%
+                <br>
+                Total: {{quotation_line.total}}
+                <hr>
+                {% endfor %}
+                Created: {{quotation.date|date:'d-m-Y'}}
+			</div>
+		</div>
+	</div>
+</section>
+
+{% endblock content %}

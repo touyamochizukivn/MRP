@@ -108,12 +108,17 @@ class QuotationAdd(CreateView):
         return super().form_valid(form)
 
 def quotation_edit(request, id):
-    obj = get_object_or_404(Quotation, id=id)
-    form = QuotationForm(request.POST or None, instance = obj)
+    quotation = get_object_or_404(Quotation, id=id)
+    form = QuotationForm(request.POST or None, instance = quotation)
+    for x in quotation.quotation_lines.all():
+        print(x)
     if form.is_valid():
-        form.save()
+        # form.save()
         return redirect('/quotation/edit/' + str(id))
     return render(request, "quotation/edit.html", {'form': form})
+
+def quotation_create_form(request):
+    return render(request, "quotation/form.html", {'form': QuotationLineForm()})
 
 def quotation_delete(request, id):
     Quotation.objects.get(id=id).delete()
