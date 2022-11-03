@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 from core.views import *
-from ts.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,6 +35,4 @@ urlpatterns = [
     path('sale_order/delete/<int:id>', sale_order_delete, name='sale_order_delete'),
 
 
-    #ts
-    path('ts', ParentCreate.as_view(), name='ts'),
 ]
