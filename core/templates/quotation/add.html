@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
-{% block title %}Quotation List{% endblock title %}
-{% block content %}
+{% block title %} Quotation add {% endblock %}
+{% block breadcrumb %} Quotation add {% endblock %}
+{% block breadcrumb-link %} {% url 'quotation_add' %} {% endblock %}
 
+{% block content %}
 <section class="">
 	<div class="container">
 		<div class="row">
@@ -37,7 +39,7 @@
 							</tr>
 							{% endfor %}
 						</table>
-						<button class="au-btn au-btn-icon au-btn--green au-btn--small"><i class="zmdi zmdi-plus"></i>Create</button>
+						<button class="btn btn-small btn-success" >Create</button>
 					</form>
 				</div>
 			</div>
@@ -49,10 +51,15 @@
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script type="text/javascript">
 		$('.formset_row').formset({
-			addText: 'add another',
+			addText: 'Add more',
 			deleteText: 'remove',
 			prefix: 'child_set'
 		});
+		var elements = document.getElementsByClassName("delete-row");
+		for (let index = 0; index < elements.length; index++) {
+			elements[index].classList.add('btn')
+			elements[index].classList.add('btn-danger')
+		}
 	</script>
 </section>
 
