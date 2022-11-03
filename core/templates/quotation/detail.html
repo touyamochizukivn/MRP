@@ -13,18 +13,22 @@
 				Quote for Customer: {{quotation.customer}}
                 <hr>
                 {% for quotation_line in quotation.quotation_lines.all %}
-                <a href="{% url 'quotation_create_form' %}"><button class="au-btn au-btn-icon au-btn--green au-btn--small"><i class="zmdi zmdi-plus"></i>update</button></a>
-                <br>
-                Product: {{quotation_line.product}} 
-                <br>
-                Price: {{quotation_line.price}}
-                <br>
-                Quantity: {{quotation_line.quantity}}
-                <br>
-                Tax: {{quotation_line.product.tax}}%
-                <br>
-                Total: {{quotation_line.total}}
-                <hr>
+                <div>
+
+                    <a hx-get="{% url 'quotation_edit' quotation_line.id %}" hx-target="#quotation_line{{quotation_line.id}}"><button class="au-btn au-btn-icon au-btn--green au-btn--small"><i class="zmdi zmdi-plus"></i>update</button></a>
+                    <div id="quotation_line{{quotation_line.id}}"></div>
+                    <br>
+                    Product: {{quotation_line.product}} 
+                    <br>
+                    Price: {{quotation_line.price}}
+                    <br>
+                    Quantity: {{quotation_line.quantity}}
+                    <br>
+                    Tax: {{quotation_line.product.tax}}%
+                    <br>
+                    Total: {{quotation_line.total}}
+                    <hr>
+                </div>
                 {% endfor %}
                 Created: {{quotation.date|date:'d-m-Y'}}
 			</div>

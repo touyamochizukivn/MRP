@@ -1,5 +1,7 @@
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Update">
-</form>
+<div hx-target hx-swap="outerHTML" class="mt-3 py-3 px-3 bg-white shadow border border-gray-100">
+    <form action="{% url 'quotation_edit' quotation_line.id %}" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Update" hx-post="{% url 'quotation_edit' quotation_line.id %}">
+    </form>
+</div>

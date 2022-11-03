@@ -25,7 +25,7 @@ class QuotationForm(forms.ModelForm):
 class QuotationLineForm(forms.ModelForm):
     class Meta:
         model = QuotationLine
-        fields = '__all__'
+        fields = ('product', 'price', 'quantity')
 
 
 class SaleOrderForm(forms.ModelForm):
@@ -43,7 +43,7 @@ from django.forms import MultipleChoiceField, Select, TextInput, modelformset_fa
 #     QuotationLine, fields=('product', 'price', 'quantity'), extra=1
 # )
 
-QuotationLineFormSet = inlineformset_factory(Quotation, QuotationLine, max_num=1, fields=('__all__'), widgets={
+QuotationLineFormSet = inlineformset_factory(Quotation, QuotationLine, max_num=2, fields=('__all__'), widgets={
     'product': Select(attrs={'class': 'form-control'}),
     'price': TextInput(attrs={'class': 'form-control'}),
     'quantity': TextInput(attrs={'class': 'form-control'}),

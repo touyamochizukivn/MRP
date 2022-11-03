@@ -31,6 +31,7 @@
     <!-- Main CSS-->
     <link href="{% static 'css/theme.css' %}" rel="stylesheet" media="all">
 
+    <script src="https://unpkg.com/htmx.org@1.6.0"></script>
 </head>
 
 <body class="animsition">
@@ -563,6 +564,11 @@
     <!-- Main JS-->
     <script src="{% static 'js/main.js' %}"></script>
 
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}'; //insert csrf token when performing AJAX request 
+        })
+        </script>
 </body>
 
 </html>

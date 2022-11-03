@@ -26,7 +26,7 @@ urlpatterns = [
     path('quotation/list', quotation_list, name='quotation_list'),
     path('quotation/<int:id>', quotation_detail, name='quotation_detail'),
     path('quotation/edit/<int:id>', quotation_edit, name='quotation_edit'),
-    path('quotation/quotation_create_form', quotation_create_form, name='quotation_create_form'),
+    path('quotation/update_status/<int:id>', quotation_update_status, name='quotation_update_status'),
     path('quotation/delete/<int:id>', quotation_delete, name='quotation_delete'),
 
 

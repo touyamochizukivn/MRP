@@ -3,9 +3,10 @@ from django.utils import timezone
 
 
 QUOTATION_STATUS = [
-    ("None", "None"),
+    ("Draft", "Draft"),
     ("Pending", "Pending"),
     ("Confirm", "Confirm"),
+    ("Refuse", "Refuse"),
 ]
 
 class Supplier(models.Model):
@@ -44,8 +45,9 @@ class Customer(models.Model):
 
 class Quotation(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    status = models.CharField(max_length=50, choices=QUOTATION_STATUS, default='Quote')
+    status = models.CharField(max_length=50, choices=QUOTATION_STATUS, default='Draft')
     date = models.DateTimeField(default=timezone.now)
+    comment = models.CharField(max_length=50, null=True, blank=True)
     def __str__(self):
         return f"Quotation: {self.customer} at {self.date}"
 class QuotationLine(models.Model):

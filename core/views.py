@@ -67,21 +67,6 @@ def quotation_detail(request, id):
     quotation = Quotation.objects.get(id=id)
     return render(request, "quotation/detail.html", {'quotation': quotation})
 
-def quotation_add(request):
-    quotation_form = QuotationForm(request.POST or None)
-    if request.method == 'POST':
-        formset = QuotationLineFormSet(data=request.POST)
-        if formset.is_valid() and quotation_form.is_valid():
-            for x in formset.cleaned_data:
-                x['id'] = quotation_form.cleaned_data.get('id')
-                print(x)
-            # formset.save()
-            from django.urls import reverse_lazy
-            return redirect(reverse_lazy("quotation_add"))
-        return render(request, {'quotation_line_formset': formset})
-    formset = QuotationLineFormSet(queryset=QuotationLine.objects.none())
-    return render(request, "quotation/add.html", {'quotation_line_formset': formset, 'quotation_form': quotation_form})
-
 class QuotationAdd(CreateView):
     template_name = 'quotation/add.html'
     model = Quotation
@@ -108,19 +93,22 @@ class QuotationAdd(CreateView):
         return super().form_valid(form)
 
 def quotation_edit(request, id):
-    quotation = get_object_or_404(Quotation, id=id)
-    form = QuotationForm(request.POST or None, instance = quotation)
-    for x in quotation.quotation_lines.all():
-        print(x)
-    if form.is_valid():
-        # form.save()
-        return redirect('/quotation/edit/' + str(id))
-    return render(request, "quotation/edit.html", {'form': form})
-
-def quotation_create_form(request):
-    return render(request, "quotation/form.html", {'form': QuotationLineForm()})
+    quotation_line = get_object_or_404(QuotationLine, id=id)
+    form = QuotationLineForm(request.POST or None, instance = quotation_line)
+    if request.method == 'POST':
+        print(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/quotation/' + str(quotation_line.quotation.id))
+    return render(request, "quotation/edit.html", {'form': form, 'quotation_line': quotation_line})
 
 def quotation_delete(request, id):
     Quotation.objects.get(id=id).delete()
+    return redirect("/quotation/list")
+
+def quotation_update_status(request, id):
+    quotation = Quotation.objects.get(id=id)
+    quotation.status = "Pending"
+    quotation.save()
     return redirect("/quotation/list")
 ###################################################################################################
