@@ -85,6 +85,7 @@ def quotation_add(request):
 class QuotationAdd(CreateView):
     template_name = 'quotation/add.html'
     model = Quotation
+    # form_class = QuotationForm
     fields = ['customer', 'status']
     def get_success_url(self):
         return reverse('quotation_list')

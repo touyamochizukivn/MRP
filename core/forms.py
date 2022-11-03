@@ -47,5 +47,4 @@ QuotationLineFormSet = inlineformset_factory(Quotation, QuotationLine, fields=('
     'product': Select(attrs={'class': 'form-control'}),
     'price': TextInput(attrs={'class': 'form-control'}),
     'quantity': TextInput(attrs={'class': 'form-control'}),
-    'delete': Select(attrs={'class': 'form-control'}),
 })
