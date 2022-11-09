@@ -22,8 +22,8 @@
 								<th>Customer</th>
 								<th>Date</th>
 								<th>Status</th>
-								<th>Start date</th>
-								<th>Salary</th>
+								<th>Comment</th>
+								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -45,8 +45,8 @@
 										{% else %}
 										<a href="{% url 'quotation_update_status' quotation.id %}"><button class="btn btn-primary">ReSend</button></a>
 										<a href="{% url 'quotation_detail' quotation.id %}"><button class="btn btn-info">Edit</button></a>
-										<a href="{% url 'quotation_delete' quotation.id %}"><button class="btn btn-danger">Delete</button></a>
 										{% endif %}
+										<a href="{% url 'quotation_delete' quotation.id %}"><button class="btn btn-danger">Delete</button></a>
 									</div>
 								</td>
 							</tr>
