@@ -95,3 +95,8 @@ class Inventory(models.Model):
     quantity = models.IntegerField()
     def __str__(self):
         return f"{self.product}: {self.quantity}"
+
+
+class Project(models.Model):
+    sale_order = models.ForeignKey(SaleOrder, on_delete=models.CASCADE)
+    
